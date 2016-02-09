@@ -9,7 +9,7 @@
 using namespace std;
 //-------------------------------
 void writeData(const fftw_complex* const f, const int N, const double L,const char* const fname);
-
+double readData(const char* const fname, const int N, double* const inR);
 //-------------------------------
 
 int main(int argc, char** argv){
@@ -36,7 +36,7 @@ int main(int argc, char** argv){
 
 	// Call function which reads the data from
 	// the input file into the array inR
-
+	L = readData(in_file, N, inR);
 
   // Calculate FFT
   fftw_execute(FW);
@@ -65,3 +65,17 @@ void writeData(const fftw_complex* const f, const int N, const double L,const ch
 	out.close();
 }
 //-------------------------------
+
+double readData(const char* const fname,  const int N, double* const inR){
+ double L;
+  ifstream in(fname);
+  double temp;
+  for (int i=0; i<N-1; i++){
+   in >> temp;
+   in >> inR[i];
+  }
+  in >> L;
+  in >> inR[N-1];
+  in.close();
+  return L;
+}
